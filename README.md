@@ -107,40 +107,4 @@ If you edit any of the HTML partials in src/partials/, you need to rebuild index
 python build.py
 
 
-🧪 Development Workflow
-Edit HTML partials, CSS, or JS.
-
-Test locally with the server (live reload not built‑in, just refresh the page).
-
-If you changed HTML partials, run python build.py to regenerate index.html.
-
-Commit and push your changes.
-
-🌍 Deployment
-GitHub Pages
-Push your repository to GitHub.
-
-Go to Settings → Pages.
-
-Set the source branch to main and folder to / (root).
-
-Your site will be published at https://your-username.github.io/repo-name/.
-
-Netlify
-Go to app.netlify.com.
-
-Drag and drop your project folder (with index.html, css/, js/) onto the upload area.
-
-Netlify gives you a URL – done!
-
-🤝 Contributing
-Contributions are welcome! Feel free to open issues or submit pull requests.
-
-📄 License
-This project is open source and available under the MIT License.
-
-🙏 Acknowledgements
-Built with vanilla JavaScript – no frameworks, just pure code.
-
-Icons from system fonts (no external icon libraries).
 

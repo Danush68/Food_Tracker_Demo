@@ -1,0 +1,76 @@
+<!-- APP CONTAINER -->
+<div class="app-container">
+    <div class="header">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h1 style="margin-bottom: 0;">
+                Food Tracker 
+                <span>cross device sync</span>
+            </h1>
+            <div class="user-name-badge">
+                <span>👤</span>
+                <span id="userNameDisplay">Guest</span>
+            </div>
+        </div>
+        <div class="stats-row">
+            <!-- Weight Card -->
+            <div class="stat-card" id="stat-weight">
+                <div>
+                    <div class="stat-label">Current weight</div>
+                    <div class="stat-value" id="weight-display">--<span class="stat-unit">kg</span></div>
+                </div>
+                <div class="badge" id="weight-progress">Not logged today</div>
+            </div>
+            <!-- Height Card -->
+            <div class="stat-card" id="stat-height">
+                <div>
+                    <div class="stat-label">Height</div>
+                    <div class="stat-value" id="height-display">183<span class="stat-unit">cm</span></div>
+                </div>
+            </div>
+            <!-- Protein Card -->
+            <div class="stat-card" id="stat-protein">
+                <div>
+                    <div class="stat-label">Daily protein</div>
+                    <div class="stat-value" id="protein-display">0<span class="stat-unit">g</span></div>
+                </div>
+                <div class="badge" id="protein-progress">0g of 140g</div>
+            </div>
+            <!-- Calories Consumed Card -->
+            <div class="stat-card" id="stat-calorie-food">
+                <div>
+                    <div class="stat-label">Calories eaten</div>
+                    <div class="stat-value" id="calorie-food-display">0<span class="stat-unit">kcal</span></div>
+                </div>
+            </div>
+            <!-- Calories Burned Card -->
+            <div class="stat-card" id="stat-calorie-burned">
+                <div>
+                    <div class="stat-label">Burned</div>
+                    <div class="stat-value" id="calorie-burned-display">0<span class="stat-unit">kcal</span></div>
+                </div>
+            </div>
+            <!-- Net Calories Card -->
+            <div class="stat-card" id="stat-calorie-net">
+                <div>
+                    <div class="stat-label">Net</div>
+                    <div class="stat-value" id="calorie-net-display">0<span class="stat-unit">kcal</span></div>
+                </div>
+                <div class="badge" id="calorie-net-progress">0 of 2200</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="date-bar">
+        <div class="date-nav">
+            <button class="nav-circle" id="prevDay">←</button>
+            <span class="date-text" id="currentDateDisplay"></span>
+            <button class="nav-circle" id="nextDay">→</button>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <span id="userEmail" style="color: #64748b; font-size: 0.9rem;"></span>
+            <button class="today-btn" id="logoutBtn">Sign Out</button>
+            <button class="today-btn" id="todayBtn">Today</button>
+            <button class="history-btn" id="showHistoryBtn">📅 History</button>
+            <button class="today-btn" id="toggleProfileBtn">👤 Edit Profile</button>
+        </div>
+    </div>

@@ -1,0 +1,479 @@
+.app-container {
+    max-width: 1100px;
+    width: 100%;
+    display: none;
+}
+body.logged-in .app-container {
+    display: block;
+}
+body:not(.logged-in) .app-container {
+    display: none !important;
+}
+
+.header {
+    margin-bottom: 2rem;
+}
+.header h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.header h1 span {
+    background: #3b82f6;
+    color: white;
+    font-size: 0.9rem;
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+    font-weight: 400;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+.stat-card {
+    background: white;
+    padding: 1rem 2rem;
+    border-radius: 24px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.stat-card:hover {
+    border: 2px solid #3b82f6;
+    transform: scale(1.02);
+}
+.stat-label {
+    color: #64748b;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.2;
+}
+.stat-unit {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    font-weight: 400;
+    margin-left: 4px;
+}
+.badge {
+    background: #e2f3e2;
+    color: #2e7d32;
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.date-bar {
+    background: white;
+    border-radius: 40px;
+    padding: 1rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    border: 1px solid #eef2f6;
+}
+.date-nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.date-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1e293b;
+    min-width: 200px;
+    text-align: center;
+}
+.nav-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.1s;
+    border: none;
+    font-size: 1.2rem;
+}
+.nav-circle:hover {
+    background: #3b82f6;
+    color: white;
+}
+.today-btn {
+    background: none;
+    border: 2px solid #e2e8f0;
+    padding: 8px 20px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: 500;
+}
+.today-btn:hover {
+    background: #f8fafc;
+}
+.history-btn {
+    background: white;
+    border: 2px solid #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.history-btn:hover {
+    background: #f8fafc;
+}
+
+/* Profile Panel */
+.profile-panel {
+    background: white;
+    border-radius: 24px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 2px solid #3b82f6;
+    box-shadow: 0 10px 25px -5px rgba(59,130,246,0.2);
+    transition: all 0.3s ease;
+}
+.profile-panel.hidden {
+    display: none;
+}
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.profile-header h3 {
+    color: #1e293b;
+    font-size: 1.2rem;
+}
+
+.main-card, .symptoms-card {
+    background: white;
+    border-radius: 32px;
+    padding: 1.8rem;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+    border: 1px solid #eef2f6;
+}
+.main-card { margin-bottom: 1.5rem; }
+.main-card h2, .symptoms-card h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.col-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 1rem;
+}
+
+.food-list, .symptom-list, .workout-list {
+    max-height: 260px;
+    overflow-y: auto;
+    border-radius: 20px;
+}
+.food-item, .symptom-item, .workout-item {
+    background: #f9fafc;
+    border-radius: 20px;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-left: 5px solid transparent;
+}
+.food-item.safe { border-left-color: #4ade80; }
+.food-item.warning { border-left-color: #fbbf24; }
+.food-item.high { border-left-color: #f87171; }
+.food-info {
+    display: flex;
+    flex-direction: column;
+}
+.food-name { font-weight: 600; color: #0f172a; }
+.food-meta { font-size: 0.8rem; color: #64748b; }
+.food-stats { text-align: right; font-weight: 600; }
+.remove-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 15px;
+}
+.remove-btn:hover { color: #ef4444; }
+
+.symptom-item { border-left: 5px solid #3b82f6; }
+.symptom-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.symptom-name {
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 1.1rem;
+}
+.symptom-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.delete-symptom { color: #ef4444; }
+.delete-symptom:hover { background: #fee2e2; }
+.edit-symptom { color: #3b82f6; }
+.edit-symptom:hover { background: #dbeafe; }
+
+.rating {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.rating-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: 0.1s;
+    border: 2px solid transparent;
+}
+.rating-circle.selected {
+    background: #3b82f6;
+    color: white;
+    border-color: #1e4f9e;
+}
+
+.add-symptom-form {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+.add-symptom-form input {
+    flex: 2;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 40px;
+    font-size: 0.95rem;
+    min-width: 200px;
+}
+
+.current-ing-section {
+    margin-top: 1.5rem;
+    border-top: 2px solid #e2e8f0;
+    padding-top: 1.5rem;
+}
+.ingredient-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 40px;
+    margin-bottom: 8px;
+    border: 1px solid #e2e8f0;
+}
+.ingredient-row span:first-child { font-weight: 500; }
+.ingredient-row span:last-child { color: #64748b; }
+.remove-ing {
+    color: #ef4444;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.total-row {
+    background: #f0f9ff;
+    padding: 12px 15px;
+    border-radius: 40px;
+    margin-top: 10px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-name-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f1f5f9;
+    padding: 0.5rem 1.2rem;
+    border-radius: 40px;
+    font-size: 0.95rem;
+}
+.user-name-badge span:first-child { font-size: 1.1rem; }
+.user-name-badge span:last-child { font-weight: 600; color: #1e293b; }
+
+.history-item {
+    background: #f8fafc;
+    border-radius: 20px;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.15s;
+    border-left: 5px solid transparent;
+}
+.history-item:hover {
+    background: #f1f5f9;
+    border-left-color: #3b82f6;
+}
+.history-date {
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+.history-stats {
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.category-section {
+    margin-bottom: 1.2rem;
+    border-radius: 20px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #f8fafc;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+    border-bottom: 1px solid #e2e8f0;
+}
+.category-header:hover { background: #f1f5f9; }
+.category-header.expanded {
+    background: #e0f2fe;
+    border-bottom: 2px solid #3b82f6;
+}
+.category-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #1e293b;
+}
+.category-icon {
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+}
+.category-icon.expanded { transform: rotate(90deg); }
+.category-count {
+    background: #cbd5e1;
+    color: #1e293b;
+    padding: 2px 8px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.category-content {
+    padding: 12px;
+    display: block;
+}
+.category-content.collapsed { display: none; }
+
+.category-ingredient {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border-left: 4px solid #3b82f6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ingredient-info { flex: 1; }
+.ingredient-name {
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+.ingredient-nutrition {
+    font-size: 0.8rem;
+    color: #64748b;
+    display: flex;
+    gap: 12px;
+}
+.ingredient-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.ingredient-use-btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+.ingredient-delete-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px;
+}
+.ingredient-delete-btn:hover { color: #ef4444; }
+
+.weight-input-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background: #f8fafc;
+    padding: 1.5rem;
+    border-radius: 24px;
+    margin-top: 1rem;
+}
+.weight-input-container .form-input { flex: 1; }

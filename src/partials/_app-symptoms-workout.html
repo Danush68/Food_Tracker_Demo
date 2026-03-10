@@ -1,0 +1,47 @@
+    <!-- SYMPTOMS & WORKOUT (two‑column row) -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+        
+        <!-- Left column: Symptoms -->
+        <div class="symptoms-card" style="margin-bottom: 0;">
+            <h2>😖 Today's symptoms</h2>
+            <div id="symptom-list" class="symptom-list"></div>
+            <div class="add-symptom-form">
+                <input type="text" id="new-symptom-name" placeholder="New symptom (e.g., Nausea, Fatigue)">
+                <button class="btn btn-outline" id="add-symptom-btn">➕ Add Symptom</button>
+            </div>
+            <button class="btn" id="save-symptoms-btn" style="width:100%; margin-top: 20px;">💾 Save Today's Symptoms</button>
+        </div>
+
+        <!-- Right column: Workout Card -->
+        <div class="symptoms-card" style="margin-bottom: 0;">
+            <h2>💪 Workout Session</h2>
+
+            <!-- Add workout form -->
+            <div style="background: #f8fafc; border-radius: 24px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="form-group">
+                    <label class="form-label">Exercise name</label>
+                    <input type="text" id="workout-name" class="form-input" placeholder="e.g., Running, Push ups">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Duration (minutes)</label>
+                        <input type="number" id="workout-duration" class="form-input" value="30" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Calories burned (optional)</label>
+                        <input type="number" id="workout-calories" class="form-input" placeholder="e.g., 200">
+                    </div>
+                </div>
+                <button class="btn" id="add-workout-btn" style="width:100%; margin-top:0.5rem;">➕ Add Workout</button>
+            </div>
+
+            <!-- Workout list -->
+            <div id="workout-list" class="workout-list" style="max-height: 260px; overflow-y: auto;"></div>
+
+            <!-- Optional tip -->
+            <div class="insight-box" style="margin-top:1rem; background:#f0f9ff;">
+                <div class="insight-title">🏋️ Tip</div>
+                <div class="insight-text">Logging workouts helps balance your calorie budget.</div>
+            </div>
+        </div>
+    </div>

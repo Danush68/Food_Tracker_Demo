@@ -1,0 +1,81 @@
+    <!-- INSIGHTS DASHBOARD - Weekly Only -->
+    <div class="main-card" id="insightsContainer" style="margin-top: 1.5rem;">
+        <h2 style="margin-bottom: 1.5rem;">📊 Weekly Insights</h2>
+
+        <!-- Weight Progress Card -->
+        <div class="insight-card">
+            <div class="insight-card-header">
+                <span class="insight-icon">⚖️</span>
+                <h3>Weight Progress</h3>
+                <span class="insight-value" id="weightChange">0 kg change</span>
+            </div>
+            <div class="chart-container" id="weightChart">
+                <!-- Chart will be populated by JS -->
+            </div>
+        </div>
+
+        <!-- Calories & Protein Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <!-- Calories Card -->
+            <div class="insight-card">
+                <div class="insight-card-header">
+                    <span class="insight-icon">🔥</span>
+                    <h3>Calories</h3>
+                    <span class="insight-value" id="calorieAvg">0 avg</span>
+                </div>
+                <div class="chart-container" id="calorieChart"></div>
+                <div class="insight-stats">
+                    <div>Goal: <span id="calorieGoal">2200</span> kcal</div>
+                    <div>vs Goal: <span id="calorieVsGoal">0%</span></div>
+                </div>
+            </div>
+
+            <!-- Protein Card -->
+            <div class="insight-card">
+                <div class="insight-card-header">
+                    <span class="insight-icon">💪</span>
+                    <h3>Protein</h3>
+                    <span class="insight-value" id="proteinAvg">0 avg</span>
+                </div>
+                <div class="chart-container" id="proteinChart"></div>
+                <div class="insight-stats">
+                    <div>Goal: <span id="proteinGoal">140</span> g</div>
+                    <div>vs Goal: <span id="proteinVsGoal">0%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workouts Card -->
+        <div class="insight-card" style="margin-top: 1.5rem;">
+            <div class="insight-card-header">
+                <span class="insight-icon">🏋️</span>
+                <h3>Workout Activity</h3>
+                <span class="insight-value" id="workoutCount">0 sessions</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <div style="text-align: center; margin-bottom: 0.5rem; color: #64748b;">Duration (min)</div>
+                    <div class="chart-container" id="workoutDurationChart"></div>
+                </div>
+                <div>
+                    <div style="text-align: center; margin-bottom: 0.5rem; color: #64748b;">Calories Burned</div>
+                    <div class="chart-container" id="workoutCaloriesChart"></div>
+                </div>
+            </div>
+            <div class="insight-stats" style="justify-content: space-around;">
+                <div>Total Duration: <span id="totalDuration">0</span> min</div>
+                <div>Calories Burned: <span id="totalBurned">0</span> kcal</div>
+            </div>
+        </div>
+
+        <!-- Weekly Summary Card -->
+        <div class="insight-card" style="margin-top: 1.5rem; background: linear-gradient(135deg, #f0f9ff 0%, #e6f0fa 100%);">
+            <div class="insight-card-header">
+                <span class="insight-icon">📈</span>
+                <h3>Weekly Summary</h3>
+            </div>
+            <div id="weeklySummary" style="line-height: 1.8; color: #1e293b;">
+                Loading insights...
+            </div>
+        </div>
+    </div>

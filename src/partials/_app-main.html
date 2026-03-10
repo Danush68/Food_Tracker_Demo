@@ -1,0 +1,98 @@
+    <!-- MAIN CARD -->
+    <div class="main-card">
+        <h2>🍽️ Log a meal</h2>
+        
+        <div class="two-col">
+            <!-- LEFT COLUMN - Ingredients Form -->
+            <div>
+                <div class="col-title">Ingredients</div>
+                
+                <div class="ingredient-form">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;">
+                        <span style="color: #3b82f6; font-size: 1.2rem;">•</span>
+                        <span style="font-weight: 500;">Add Ingredient</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Ingredient name</label>
+                        <input type="text" id="ingredient-name" class="form-input" placeholder="e.g., Chicken breast, Olive oil, Rice">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Amount (grams)</label>
+                        <input type="number" id="ingredient-grams" class="form-input" value="100">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Protein (per 100g)</label>
+                            <input type="number" id="ingredient-protein-per100" class="form-input" placeholder="e.g., 31" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Calories (per 100g)</label>
+                            <input type="number" id="ingredient-calories-per100" class="form-input" placeholder="e.g., 165" step="0.1">
+                        </div>
+                    </div>
+                    
+                    <div class="calc-box">
+                        <div>This ingredient will add:</div>
+                        <div><span id="calc-protein">0</span>g protein • <span id="calc-calories">0</span> kcal</div>
+                    </div>
+                    
+                    <button class="add-btn-left" id="add-ingredient-btn">➕ Add This Ingredient to Meal</button>
+                </div>
+            </div>
+            
+            <!-- RIGHT COLUMN - Custom Ingredients -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div class="col-title" style="margin-bottom: 0;">Your Custom Ingredients</div>
+                    <button id="show-add-ingredient-form-btn" style="background: #3b82f6; color: white; border: none; border-radius: 40px; padding: 6px 16px; font-size: 0.85rem; cursor: pointer;">+ Add New</button>
+                </div>
+                
+                <!-- Add Ingredient Form -->
+                <div id="add-ingredient-form" style="display: none; background: #f8fafc; border-radius: 20px; padding: 1rem; margin-bottom: 1.5rem; border: 2px solid #3b82f6;">
+                    <div style="margin-bottom: 10px;">
+                        <input type="text" id="custom-ing-name" placeholder="Ingredient name" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 40px;">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <input type="number" id="custom-ing-protein" placeholder="Protein/100g" step="0.1" style="padding: 10px; border: 2px solid #e2e8f0; border-radius: 40px;">
+                        <input type="number" id="custom-ing-calories" placeholder="Cal/100g" step="0.1" style="padding: 10px; border: 2px solid #e2e8f0; border-radius: 40px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <select id="custom-ing-category" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 40px;">
+                            <option value="protein">🍗 Protein</option>
+                            <option value="dairy">🥛 Dairy</option>
+                            <option value="vegetables">🥦 Vegetables</option>
+                            <option value="fruits">🍎 Fruits</option>
+                            <option value="grains">🌾 Grains</option>
+                            <option value="spices">🧂 Spices</option>
+                            <option value="other">📦 Other</option>
+                        </select>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <button id="save-custom-ingredient-btn" style="background: #22c55e; color: white; border: none; border-radius: 40px; padding: 8px 16px; font-weight: 600; cursor: pointer;">Save</button>
+                        <button id="cancel-add-ingredient-btn" style="background: white; border: 2px solid #e2e8f0; border-radius: 40px; padding: 8px 16px; font-weight: 600; cursor: pointer;">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Categories Container -->
+                <div id="categories-container" class="custom-ing-list"></div>
+            </div>
+        </div>
+        
+        <!-- Current Meal Ingredients -->
+        <div class="current-ing-section">
+            <div class="col-title">Current Meal Ingredients</div>
+            <div id="ingredients-list"></div>
+            <button class="add-btn-left" id="save-meal-btn" style="margin-top: 1.5rem; background: #22c55e; border-color: #16a34a;">🍽️ Save Complete Meal</button>
+        </div>
+        
+        <!-- Today's Foods -->
+        <h2 style="margin-top: 2rem;">📋 Today's foods</h2>
+        <div id="food-list-container" class="food-list">
+            <div style="text-align: center; color: #94a3b8; padding: 30px;">No foods logged yet.</div>
+        </div>
+    </div>

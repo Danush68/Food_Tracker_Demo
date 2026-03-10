@@ -1,0 +1,96 @@
+.login-container, .signup-container {
+    max-width: 400px;
+    width: 100%;
+    background: white;
+    border-radius: 40px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.login-container h1, .signup-container h1 {
+    font-size: 2.2rem;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+.subtitle {
+    color: #64748b;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+.form-group {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+.form-group label {
+    display: block;
+    color: #475569;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    margin-left: 0.5rem;
+}
+.form-group input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 40px;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+.form-group input:focus {
+    border-color: #3b82f6;
+    outline: none;
+}
+.form-group small {
+    display: block;
+    color: #64748b;
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+    margin-top: 0.2rem;
+}
+.divider {
+    margin: 1.5rem 0;
+    color: #94a3b8;
+    position: relative;
+}
+.divider::before, .divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background: #e2e8f0;
+}
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+.demo-note {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 20px;
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+/* When logged in, hide login/signup */
+body.logged-in .login-container,
+body.loged-in .signup-container {   
+    display: none !important;
+}
+
+/* When logged in, show app */
+body.logged-in .app-container {
+    display: block !important;
+}
+
+/* When NOT logged in, hide app */
+body:not(.logged-in) .app-container {
+    display: none !important;
+}
+
+
+
+/* Visibility states */
+.login-container { display: block; }
+.signup-container { display: none; }
+.signup-container.active { display: block !important; }
+.login-container.hidden { display: none !important; }

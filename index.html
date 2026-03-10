@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Tracker - Cross Device Sync</title>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- CSS files -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/components/ingredient-form.css">
+    <link rel="stylesheet" href="css/components/workout-card.css">
+    <link rel="stylesheet" href="css/components/insights.css">
+</head>
+<body>
+<!-- LOGIN CONTAINER -->
+<div class="login-container" id="loginContainer">
+    <h1>🍽️ Food Tracker</h1>
+    <div class="subtitle">Sign in to access your meals</div>
+    
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="your@email.com">
+    </div>
+    
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="••••••••">
+    </div>
+    
+    <button class="btn btn-primary" id="signInBtn">Sign In</button>
+    
+    <div class="divider">or</div>
+    
+    <div class="form-group">
+        <center>New here?</center>
+    </div>
+    <button class="btn btn-outline" id="signUpBtn">Create Account</button>
+</div>
+<!-- SIGN-UP CONTAINER (hidden by default) -->
+<div class="signup-container" id="signupContainer">
+    <h1>🍽️ Create Account</h1>
+    <div class="subtitle">Join Food Tracker</div>
+    
+    <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" id="signupName" placeholder="e.g., John Doe">
+    </div>
+    
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="signupEmail" placeholder="your@email.com">
+    </div>
+    
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="signupPassword" placeholder="••••••••">
+        <small>Min. 6 characters</small>
+    </div>
+    
+    <div class="form-group">
+        <label>Height (cm)</label>
+        <input type="number" id="signupHeight" placeholder="e.g., 175">
+    </div>
+    
+    <div class="form-group">
+        <label>Goal Weight (kg)</label>
+        <input type="number" id="signupGoalWeight" placeholder="e.g., 85" step="0.1">
+    </div>
+    
+    <div class="form-group">
+        <label>Daily Protein Goal (g)</label>
+        <input type="number" id="signupProteinGoal" placeholder="e.g., 140">
+    </div>
+    
+    <button class="btn btn-primary" id="createAccountBtn">Create Account</button>
+    <button class="btn btn-outline" id="backToLoginBtn">← Back to Login</button>
+    
+    <div class="demo-note" style="margin-top: 1rem;">
+        Already have an account? <a href="#" id="backToLoginLink">Sign in</a>
+    </div>
+</div>
+<!-- APP CONTAINER -->
+<div class="app-container">
+    <div class="header">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h1 style="margin-bottom: 0;">
+                Food Tracker 
+                <span>cross device sync</span>
+            </h1>
+            <div class="user-name-badge">
+                <span>👤</span>
+                <span id="userNameDisplay">Guest</span>
+            </div>
+        </div>
+        <div class="stats-row">
+            <!-- Weight Card -->
+            <div class="stat-card" id="stat-weight">
+                <div>
+                    <div class="stat-label">Current weight</div>
+                    <div class="stat-value" id="weight-display">--<span class="stat-unit">kg</span></div>
+                </div>
+                <div class="badge" id="weight-progress">Not logged today</div>
+            </div>
+            <!-- Height Card -->
+            <div class="stat-card" id="stat-height">
+                <div>
+                    <div class="stat-label">Height</div>
+                    <div class="stat-value" id="height-display">183<span class="stat-unit">cm</span></div>
+                </div>
+            </div>
+            <!-- Protein Card -->
+            <div class="stat-card" id="stat-protein">
+                <div>
+                    <div class="stat-label">Daily protein</div>
+                    <div class="stat-value" id="protein-display">0<span class="stat-unit">g</span></div>
+                </div>
+                <div class="badge" id="protein-progress">0g of 140g</div>
+            </div>
+            <!-- Calories Consumed Card -->
+            <div class="stat-card" id="stat-calorie-food">
+                <div>
+                    <div class="stat-label">Calories eaten</div>
+                    <div class="stat-value" id="calorie-food-display">0<span class="stat-unit">kcal</span></div>
+                </div>
+            </div>
+            <!-- Calories Burned Card -->
+            <div class="stat-card" id="stat-calorie-burned">
+                <div>
+                    <div class="stat-label">Burned</div>
+                    <div class="stat-value" id="calorie-burned-display">0<span class="stat-unit">kcal</span></div>
+                </div>
+            </div>
+            <!-- Net Calories Card -->
+            <div class="stat-card" id="stat-calorie-net">
+                <div>
+                    <div class="stat-label">Net</div>
+                    <div class="stat-value" id="calorie-net-display">0<span class="stat-unit">kcal</span></div>
+                </div>
+                <div class="badge" id="calorie-net-progress">0 of 2200</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="date-bar">
+        <div class="date-nav">
+            <button class="nav-circle" id="prevDay">←</button>
+            <span class="date-text" id="currentDateDisplay"></span>
+            <button class="nav-circle" id="nextDay">→</button>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <span id="userEmail" style="color: #64748b; font-size: 0.9rem;"></span>
+            <button class="today-btn" id="logoutBtn">Sign Out</button>
+            <button class="today-btn" id="todayBtn">Today</button>
+            <button class="history-btn" id="showHistoryBtn">📅 History</button>
+            <button class="today-btn" id="toggleProfileBtn">👤 Edit Profile</button>
+        </div>
+    </div>
+    <!-- Weight Tracking Card - Optional -->
+    <div class="main-card">
+        <h2>⚖️ Track Weight</h2>
+        <div class="weight-input-container">
+            <input type="number" id="todayWeight" class="form-input" step="0.1" placeholder="Enter weight for this day (optional)">
+            <button class="btn" id="saveWeightBtn">Save Weight</button>
+        </div>
+        <p style="color: #64748b; font-size: 0.85rem; margin-top: 0.5rem; padding-left: 0.5rem;">
+            Weight is saved per day - previous days' weights remain unchanged
+        </p>
+    </div>
+    <!-- MAIN CARD -->
+    <div class="main-card">
+        <h2>🍽️ Log a meal</h2>
+        
+        <div class="two-col">
+            <!-- LEFT COLUMN - Ingredients Form -->
+            <div>
+                <div class="col-title">Ingredients</div>
+                
+                <div class="ingredient-form">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;">
+                        <span style="color: #3b82f6; font-size: 1.2rem;">•</span>
+                        <span style="font-weight: 500;">Add Ingredient</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Ingredient name</label>
+                        <input type="text" id="ingredient-name" class="form-input" placeholder="e.g., Chicken breast, Olive oil, Rice">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Amount (grams)</label>
+                        <input type="number" id="ingredient-grams" class="form-input" value="100">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Protein (per 100g)</label>
+                            <input type="number" id="ingredient-protein-per100" class="form-input" placeholder="e.g., 31" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Calories (per 100g)</label>
+                            <input type="number" id="ingredient-calories-per100" class="form-input" placeholder="e.g., 165" step="0.1">
+                        </div>
+                    </div>
+                    
+                    <div class="calc-box">
+                        <div>This ingredient will add:</div>
+                        <div><span id="calc-protein">0</span>g protein • <span id="calc-calories">0</span> kcal</div>
+                    </div>
+                    
+                    <button class="add-btn-left" id="add-ingredient-btn">➕ Add This Ingredient to Meal</button>
+                </div>
+            </div>
+            
+            <!-- RIGHT COLUMN - Custom Ingredients -->
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div class="col-title" style="margin-bottom: 0;">Your Custom Ingredients</div>
+                    <button id="show-add-ingredient-form-btn" style="background: #3b82f6; color: white; border: none; border-radius: 40px; padding: 6px 16px; font-size: 0.85rem; cursor: pointer;">+ Add New</button>
+                </div>
+                
+                <!-- Add Ingredient Form -->
+                <div id="add-ingredient-form" style="display: none; background: #f8fafc; border-radius: 20px; padding: 1rem; margin-bottom: 1.5rem; border: 2px solid #3b82f6;">
+                    <div style="margin-bottom: 10px;">
+                        <input type="text" id="custom-ing-name" placeholder="Ingredient name" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 40px;">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <input type="number" id="custom-ing-protein" placeholder="Protein/100g" step="0.1" style="padding: 10px; border: 2px solid #e2e8f0; border-radius: 40px;">
+                        <input type="number" id="custom-ing-calories" placeholder="Cal/100g" step="0.1" style="padding: 10px; border: 2px solid #e2e8f0; border-radius: 40px;">
+                    </div>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <select id="custom-ing-category" style="width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 40px;">
+                            <option value="protein">🍗 Protein</option>
+                            <option value="dairy">🥛 Dairy</option>
+                            <option value="vegetables">🥦 Vegetables</option>
+                            <option value="fruits">🍎 Fruits</option>
+                            <option value="grains">🌾 Grains</option>
+                            <option value="spices">🧂 Spices</option>
+                            <option value="other">📦 Other</option>
+                        </select>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <button id="save-custom-ingredient-btn" style="background: #22c55e; color: white; border: none; border-radius: 40px; padding: 8px 16px; font-weight: 600; cursor: pointer;">Save</button>
+                        <button id="cancel-add-ingredient-btn" style="background: white; border: 2px solid #e2e8f0; border-radius: 40px; padding: 8px 16px; font-weight: 600; cursor: pointer;">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Categories Container -->
+                <div id="categories-container" class="custom-ing-list"></div>
+            </div>
+        </div>
+        
+        <!-- Current Meal Ingredients -->
+        <div class="current-ing-section">
+            <div class="col-title">Current Meal Ingredients</div>
+            <div id="ingredients-list"></div>
+            <button class="add-btn-left" id="save-meal-btn" style="margin-top: 1.5rem; background: #22c55e; border-color: #16a34a;">🍽️ Save Complete Meal</button>
+        </div>
+        
+        <!-- Today's Foods -->
+        <h2 style="margin-top: 2rem;">📋 Today's foods</h2>
+        <div id="food-list-container" class="food-list">
+            <div style="text-align: center; color: #94a3b8; padding: 30px;">No foods logged yet.</div>
+        </div>
+    </div>
+    <!-- SYMPTOMS & WORKOUT (two‑column row) -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+        
+        <!-- Left column: Symptoms -->
+        <div class="symptoms-card" style="margin-bottom: 0;">
+            <h2>😖 Today's symptoms</h2>
+            <div id="symptom-list" class="symptom-list"></div>
+            <div class="add-symptom-form">
+                <input type="text" id="new-symptom-name" placeholder="New symptom (e.g., Nausea, Fatigue)">
+                <button class="btn btn-outline" id="add-symptom-btn">➕ Add Symptom</button>
+            </div>
+            <button class="btn" id="save-symptoms-btn" style="width:100%; margin-top: 20px;">💾 Save Today's Symptoms</button>
+        </div>
+
+        <!-- Right column: Workout Card -->
+        <div class="symptoms-card" style="margin-bottom: 0;">
+            <h2>💪 Workout Session</h2>
+
+            <!-- Add workout form -->
+            <div style="background: #f8fafc; border-radius: 24px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <div class="form-group">
+                    <label class="form-label">Exercise name</label>
+                    <input type="text" id="workout-name" class="form-input" placeholder="e.g., Running, Push ups">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Duration (minutes)</label>
+                        <input type="number" id="workout-duration" class="form-input" value="30" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Calories burned (optional)</label>
+                        <input type="number" id="workout-calories" class="form-input" placeholder="e.g., 200">
+                    </div>
+                </div>
+                <button class="btn" id="add-workout-btn" style="width:100%; margin-top:0.5rem;">➕ Add Workout</button>
+            </div>
+
+            <!-- Workout list -->
+            <div id="workout-list" class="workout-list" style="max-height: 260px; overflow-y: auto;"></div>
+
+            <!-- Optional tip -->
+            <div class="insight-box" style="margin-top:1rem; background:#f0f9ff;">
+                <div class="insight-title">🏋️ Tip</div>
+                <div class="insight-text">Logging workouts helps balance your calorie budget.</div>
+            </div>
+        </div>
+    </div>
+    <!-- INSIGHTS DASHBOARD - Weekly Only -->
+    <div class="main-card" id="insightsContainer" style="margin-top: 1.5rem;">
+        <h2 style="margin-bottom: 1.5rem;">📊 Weekly Insights</h2>
+
+        <!-- Weight Progress Card -->
+        <div class="insight-card">
+            <div class="insight-card-header">
+                <span class="insight-icon">⚖️</span>
+                <h3>Weight Progress</h3>
+                <span class="insight-value" id="weightChange">0 kg change</span>
+            </div>
+            <div class="chart-container" id="weightChart">
+                <!-- Chart will be populated by JS -->
+            </div>
+        </div>
+
+        <!-- Calories & Protein Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <!-- Calories Card -->
+            <div class="insight-card">
+                <div class="insight-card-header">
+                    <span class="insight-icon">🔥</span>
+                    <h3>Calories</h3>
+                    <span class="insight-value" id="calorieAvg">0 avg</span>
+                </div>
+                <div class="chart-container" id="calorieChart"></div>
+                <div class="insight-stats">
+                    <div>Goal: <span id="calorieGoal">2200</span> kcal</div>
+                    <div>vs Goal: <span id="calorieVsGoal">0%</span></div>
+                </div>
+            </div>
+
+            <!-- Protein Card -->
+            <div class="insight-card">
+                <div class="insight-card-header">
+                    <span class="insight-icon">💪</span>
+                    <h3>Protein</h3>
+                    <span class="insight-value" id="proteinAvg">0 avg</span>
+                </div>
+                <div class="chart-container" id="proteinChart"></div>
+                <div class="insight-stats">
+                    <div>Goal: <span id="proteinGoal">140</span> g</div>
+                    <div>vs Goal: <span id="proteinVsGoal">0%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workouts Card -->
+        <div class="insight-card" style="margin-top: 1.5rem;">
+            <div class="insight-card-header">
+                <span class="insight-icon">🏋️</span>
+                <h3>Workout Activity</h3>
+                <span class="insight-value" id="workoutCount">0 sessions</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <div style="text-align: center; margin-bottom: 0.5rem; color: #64748b;">Duration (min)</div>
+                    <div class="chart-container" id="workoutDurationChart"></div>
+                </div>
+                <div>
+                    <div style="text-align: center; margin-bottom: 0.5rem; color: #64748b;">Calories Burned</div>
+                    <div class="chart-container" id="workoutCaloriesChart"></div>
+                </div>
+            </div>
+            <div class="insight-stats" style="justify-content: space-around;">
+                <div>Total Duration: <span id="totalDuration">0</span> min</div>
+                <div>Calories Burned: <span id="totalBurned">0</span> kcal</div>
+            </div>
+        </div>
+
+        <!-- Weekly Summary Card -->
+        <div class="insight-card" style="margin-top: 1.5rem; background: linear-gradient(135deg, #f0f9ff 0%, #e6f0fa 100%);">
+            <div class="insight-card-header">
+                <span class="insight-icon">📈</span>
+                <h3>Weekly Summary</h3>
+            </div>
+            <div id="weeklySummary" style="line-height: 1.8; color: #1e293b;">
+                Loading insights...
+            </div>
+        </div>
+    </div>
+    <!-- Profile Panel -->
+    <div class="profile-panel hidden" id="profilePanel">
+        <div class="profile-header">
+            <h3>⚙️ Edit Your Profile</h3>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <label style="font-weight: 600; color: #475569;">Your Name</label>
+                <input type="text" id="settingsName" value="Guest" style="padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 16px;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <label style="font-weight: 600; color: #475569;">Height (cm)</label>
+                <input type="number" id="settingsHeight" value="183" style="padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 16px;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <label style="font-weight: 600; color: #475569;">Goal Weight (kg)</label>
+                <input type="number" id="settingsGoalWeight" value="85" step="0.1" style="padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 16px;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <label style="font-weight: 600; color: #475569;">Daily Protein (g)</label>
+                <input type="number" id="settingsProteinGoal" value="140" style="padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 16px;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+                <label style="font-weight: 600; color: #475569;">Daily Calories</label>
+                <input type="number" id="settingsCalorieGoal" value="2200" style="padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 16px;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px; justify-content: flex-end;">
+                <button id="saveSettingsBtn" style="background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 40px; font-weight: 600; cursor: pointer;">Save Changes</button>
+            </div>
+        </div>
+        <!-- Backup/Restore moved to profile panel -->
+        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid #e2e8f0;">
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn btn-outline" id="exportDataBtn" style="flex: 1;">💾 Backup</button>
+                <button class="btn btn-outline" id="importDataBtn" style="flex: 1;">📂 Restore</button>
+            </div>
+            <p style="font-size: 0.8rem; color: #94a3b8; text-align: center; margin-top: 0.5rem;">
+                Manual backup - cloud sync is automatic
+            </p>
+        </div>
+    </div>
+    <!-- History Modal -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📅 Your Daily History</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div id="historyList" class="history-list"></div>
+        </div>
+    </div>
+    <div class="footer-note">
+        ⚡ All days saved permanently · Click ← → to see past logs · Double-click any stat to edit
+    </div>
+</div> <!-- close app-container -->
+
+<!-- Core scripts (order matters!) -->
+<script src="js/firebase-config.js"></script>
+<script src="js/data-structures.js"></script>
+<script src="js/firestore.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/auth-state.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/components/food-logging.js"></script>
+<script src="js/components/custom-ingredients.js"></script>
+<script src="js/components/symptoms.js"></script>
+<script src="js/components/workouts.js"></script>
+<script src="js/components/weight.js"></script>
+<script src="js/components/insights.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
+</body>
+</html>

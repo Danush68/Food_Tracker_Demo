@@ -477,3 +477,41 @@ body:not(.logged-in) .app-container {
     margin-top: 1rem;
 }
 .weight-input-container .form-input { flex: 1; }
+
+/* Modal backdrop */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+.modal-backdrop.show {
+    display: block;
+}
+
+/* Profile panel as a modal */
+#profilePanel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 32px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: none;
+}
+
+#profilePanel:not(.hidden) {
+    display: block !important;
+}

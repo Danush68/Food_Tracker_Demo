@@ -53,25 +53,55 @@ function setupEventListeners() {
         loadCurrentDay();
     });
 
-    // Profile toggle
+    // Edit Profile modal
     const toggleBtn = document.getElementById('toggleProfileBtn');
-    if (toggleBtn) {
+    const profilePanel = document.getElementById('profilePanel');
+    let backdrop = document.querySelector('.modal-backdrop');
+
+    // Create backdrop if it doesn't exist
+    if (!backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.className = 'modal-backdrop';
+        document.body.appendChild(backdrop);
+    }
+
+    if (toggleBtn && profilePanel) {
         toggleBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            const panel = document.getElementById('profilePanel');
-            if (panel) {
-                panel.classList.toggle('hidden');
-                if (!panel.classList.contains('hidden')) {
-                    document.getElementById('settingsName').value = userProfile.name || 'Guest';
-                    document.getElementById('settingsHeight').value = userProfile.height;
-                    document.getElementById('settingsGoalWeight').value = userProfile.goalWeight;
-                    document.getElementById('settingsProteinGoal').value = userProfile.proteinGoal;
-                    document.getElementById('settingsCalorieGoal').value = userProfile.calorieGoal;
-                }
+
+            if (profilePanel.classList.contains('hidden')) {
+                // Open modal
+                profilePanel.classList.remove('hidden');
+                backdrop.classList.add('show');
+
+                // Populate fields
+                document.getElementById('settingsName').value = userProfile?.name || 'Guest';
+                document.getElementById('settingsHeight').value = userProfile?.height || 183;
+                document.getElementById('settingsGoalWeight').value = userProfile?.goalWeight || 85;
+                document.getElementById('settingsProteinGoal').value = userProfile?.proteinGoal || 140;
+                document.getElementById('settingsCalorieGoal').value = userProfile?.calorieGoal || 2200;
+            } else {
+                // Close modal (this should not happen via button click, but handle anyway)
+                closeProfileModal();
             }
         });
     }
 
+    // Close modal when clicking on backdrop
+    backdrop.addEventListener('click', closeProfileModal);
+
+    // Close modal function
+    function closeProfileModal() {
+        profilePanel.classList.add('hidden');
+        backdrop.classList.remove('show');
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !profilePanel.classList.contains('hidden')) {
+            closeProfileModal();
+        }
+    });
     // Save profile
     document.getElementById('saveSettingsBtn')?.addEventListener('click', function() {
         const newName = document.getElementById('settingsName').value.trim() || 'User';

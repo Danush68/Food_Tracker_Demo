@@ -3,7 +3,7 @@
 A full‑featured food, symptom, and workout tracker that helps you understand your body and reach your health goals.  
 Log your meals with custom ingredients, track symptoms and workouts, see weekly insights, and sync everything across devices using Firebase.
 
-![App Screenshot](screenshot.png) <!-- Replace with an actual screenshot if you have one -->
+<img width="708" height="864" alt="image" src="https://github.com/user-attachments/assets/b9a71712-7880-41b4-9bb2-dd7c978090e4" />
 
 ---
 

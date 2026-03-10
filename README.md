@@ -33,50 +33,53 @@ Log your meals with custom ingredients, track symptoms and workouts, see weekly 
 ---
 
 ## 📁 Project Structure
+
+
+```text
 project/
-│
-├── src/ # Source files (you edit these)
-│ └── partials/ # HTML pieces
-│ ├── _base.html
-│ ├── _login.html
-│ ├── _signup.html
-│ ├── _app-header.html
-│ ├── _app-main.html
-│ ├── _app-weight.html
-│ ├── _app-symptoms-workout.html
-│ ├── _app-insights.html
-│ ├── _profile-panel.html
-│ ├── _history-modal.html
-│ └── _footer.html
-│
-├── css/ # Stylesheets
-│ ├── main.css
-│ ├── login.css
-│ ├── app.css
-│ └── components/
-│ ├── ingredient-form.css
-│ ├── workout-card.css
-│ └── insights.css
-│
-├── js/ # JavaScript modules
-│ ├── firebase-config.js
-│ ├── data-structures.js
-│ ├── firestore.js
-│ ├── storage.js
-│ ├── auth.js
-│ ├── auth-state.js
-│ ├── utils.js
-│ └── components/
-│ ├── food-logging.js
-│ ├── custom-ingredients.js
-│ ├── symptoms.js
-│ ├── workouts.js
-│ ├── weight.js
-│ └── insights.js
-│
-├── build.py # Python script to build index.html
-├── index.html # Generated output (do not edit directly)
-└── README.md # This file
+├── src/
+│   └── partials/
+│       ├── _base.html
+│       ├── _login.html
+│       ├── _signup.html
+│       ├── _app-header.html
+│       ├── _app-main.html
+│       ├── _app-weight.html
+│       ├── _app-symptoms-workout.html
+│       ├── _app-insights.html
+│       ├── _profile-panel.html
+│       ├── _history-modal.html
+│       └── _footer.html
+├── css/
+│   ├── main.css
+│   ├── login.css
+│   ├── app.css
+│   └── components/
+│       ├── ingredient-form.css
+│       ├── workout-card.css
+│       └── insights.css
+├── js/
+│   ├── firebase-config.js
+│   ├── data-structures.js
+│   ├── firestore.js
+│   ├── storage.js
+│   ├── auth.js
+│   ├── auth-state.js
+│   ├── utils.js
+│   └── components/
+│       ├── food-logging.js
+│       ├── custom-ingredients.js
+│       ├── symptoms.js
+│       ├── workouts.js
+│       ├── weight.js
+│       └── insights.js
+├── build.py
+├── index.html
+└── README.md
+```
+
+
+
 
 
 ---
@@ -88,26 +91,9 @@ bash
 git clone https://github.com/your-username/food-tracker.git
 cd food-tracker
 
-### 2. Set up Firebase
-Go to the Firebase Console and create a new project.
 
-Enable Email/Password authentication.
 
-Create a Firestore database (start in test mode for development).
-
-In your project settings, copy the Firebase config object.
-
-Open js/firebase-config.js and replace the placeholder config with your own:
-const firebaseConfig = {
-    apiKey: "your-api-key",
-    authDomain: "your-auth-domain",
-    projectId: "your-project-id",
-    storageBucket: "your-storage-bucket",
-    messagingSenderId: "your-sender-id",
-    appId: "your-app-id"
-};
-
-### 3. Run a local server (required, because of CORS)
+### 2. Run a local server (required, because of CORS)
 
 Do not open index.html directly with file://. Use a simple HTTP server:
 
@@ -115,7 +101,7 @@ Python 3:python -m http.server 8000
 
 Then open http://localhost:8000 in your browser.
 
-### 4. Build the final HTML (when you change partials)
+### 3. Build the final HTML (when you change partials)
 
 If you edit any of the HTML partials in src/partials/, you need to rebuild index.html:
 python build.py
